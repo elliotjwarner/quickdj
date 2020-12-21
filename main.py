@@ -12,19 +12,15 @@ variable=['','','','','','','','','','']
 # used to set songs
 def setSounds():
     global tempSoundArray
-    s=[]
+    tempSoundArray=[]
     for i in range(10):
         inputs = "./sounds/"+variable[i].get()
-        s.insert(i,mixer.Sound(inputs))
-    
-    tempSoundArray = s
+        tempSoundArray.insert(i,mixer.Sound(inputs))
     
 # used to set songs to keys
 def on_key(event):
-    # detect any normal key press (0..9, A..Z, a..z)
-    soundArray = tempSoundArray
     if event.char == event.keysym:
-        soundArray[int(event.char)-1].play()
+        tempSoundArray[int(event.char)-1].play()
 
 # set random sounds on start
 def rand():
@@ -33,7 +29,7 @@ def rand():
     setSounds()
 
 # main loop calls GUI and helper functions
-def mainloop():
+if __name__ == '__main__':
 
     # initialize sound list from sounds folder
     i=0
@@ -44,6 +40,7 @@ def mainloop():
 
     # create GUI
     root = Tk()
+    root.title("Quick DJ")
 
     # create button that changes sounds
     button = Button(root, text="set sounds", command=setSounds, width =25)
@@ -56,8 +53,5 @@ def mainloop():
         opt = OptionMenu(root, variable[i], *soundList)#drop down functionality
         opt.pack(side="left")#structure
 
-    # initialize dropdown with rand sounds
     rand()
     root.mainloop() 
-
-mainloop()
